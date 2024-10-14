@@ -1,50 +1,80 @@
-# React + TypeScript + Vite
+# Playwright + Storybook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Key features 🪴
 
-Currently, two official plugins are available:
+- **Visual Regression Testing**: Integrate Playwright with Storybook to perform reliable visual regression tests. Ensure your components remain visually consistent across updates by capturing and comparing screenshots.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Automated Storybook Loading**: Automatically wait for Storybook to be fully loaded before performing tests, reducing flaky results and ensuring consistent test outcomes.
 
-## Expanding the ESLint configuration
+- **Reusable URL Utility**: Simplified URL generation for accessing specific Storybook stories through a custom utility function. This reduces hardcoding and makes tests more maintainable and modular.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Dynamic Screenshot Handling**: Capture screenshots for various components dynamically and compare them with baseline images using Pixelmatch, providing a clean mechanism for detecting visual changes.
 
-- Configure the top-level `parserOptions` property like this:
+- **Automated Cleanup**: Efficiently manage new screenshots and diffs by deleting them automatically if they match the baseline, keeping the workspace clean and organized.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Playwright Report Integration**: Attach diff images to Playwright test reports for easy inspection of visual mismatches, making it easier to identify and debug issues when tests fail.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Getting Started 🚀
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. **Install dependencies**:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   ```bash
+   npm install
+   ```
+
+   Ensure you have Playwright, Storybook, Pixelmatch, and PNGjs installed as development dependencies.
+
+2. **Run Storybook**:
+
+   ```bash
+   npm run storybook
+   ```
+
+   This command will start Storybook on the default port (6006).
+
+3. **Run Visual Regression Tests**:
+
+   ```bash
+   npm run test
+   ```
+
+   This command will execute Playwright tests that interact with Storybook components and compare visual snapshots.
+
+4. **View Playwright Test Reports**:
+
+   ```bash
+   npx playwright show-report
+   ```
+
+   Open the HTML report to inspect any failing tests and see attached diff images for failed visual comparisons.
+
+## Technologies Used 🛠️
+
+| Technology    | Purpose                                  |
+|---------------|------------------------------------------|
+| Playwright    | Browser automation and testing framework |
+| Storybook     | Isolated component development tool      |
+| Pixelmatch    | Image comparison for visual regression   |
+| PNGjs         | PNG image reading and manipulation       |
+| Node.js       | JavaScript runtime environment           |
+
+## Project Structure 🏗️
+
+- **`/screenshots`**: Stores baseline and new screenshots.
+- **`/screenshots/diffs`**: Stores diff images generated during visual regression tests.
+- **`/tests`**: Contains Playwright tests that run against Storybook.
+- **`/utils`**: Helper utilities for generating Storybook URLs and handling screenshots.
+
+## How It Works ⚙️
+
+- **Loading Stories**: The tests use a utility to generate Storybook URLs dynamically, enabling easy access to specific stories.
+- **Taking Screenshots**: Screenshots of components are taken after ensuring Storybook is fully loaded and components are rendered.
+- **Image Comparison**: Pixelmatch is used to compare the new screenshots against the baseline. If a mismatch is detected, a diff image is saved and attached to the Playwright report.
+
+## Future Improvements 🌱
+
+- **Integrate with CI/CD**: Automate visual regression tests in CI/CD pipelines to detect visual changes early in the development process.
+- **Custom Thresholds**: Allow customizable Pixelmatch thresholds to control the sensitivity of visual comparisons.
+- **Component-level Isolation**: Add functionality to test isolated components more thoroughly, including props and events.
+
+Feel free to contribute and explore more ways to enhance the efficiency of visual regression testing with Playwright and Storybook!
